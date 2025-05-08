@@ -46,4 +46,4 @@ def template(filtered_units):
     elif 'null' in filtered_units:
         return ""
     else:
-        return "\n".join([f"Name: {unit['name']}, Price: {unit['price']}, Available On: {unit['availableOn']}" for unit in filtered_units])
+        return "<br>".join([f"Name: {unit['name']}, Price: {unit['price']}, Available On: {unit['availableOn']}" for unit in filtered_units])
