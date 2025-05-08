@@ -1,5 +1,7 @@
 from dotenv import load_dotenv
-import macbook_512
+from datetime import datetime
+from trackers import macbook_512
+from trackers import fifteenth_street
 import email_service
 
 def run_tracker(tracker_module, functions):
@@ -14,9 +16,11 @@ def run_tracker(tracker_module, functions):
 
 def main():
     load_dotenv()
+    print(datetime.today())
 
     trackers = {
-        "macbook_512": ["fetch", "process", "template"]
+        "macbook_512": ["fetch", "process", "template"],
+        # "fifteenth_street": ["fetch", "process", "template"]
     }
 
     final_templates = {}

@@ -8,9 +8,13 @@ def send_email(data):
     recipient_email = os.getenv("recipient_email")
     
     subject = "Availability Update"
-    body = "\n\n".join([f"{tracker_name}:\n{msg}" for tracker_name, msg in data.items() if msg])
+    body = "<br><br>".join([f"{tracker_name}:<br>{msg}" for tracker_name, msg in data.items() if msg])
     
-    msg = MIMEText(body)
+    if not body:
+        print("No new content to send.")
+        return
+    
+    msg = MIMEText(body, 'html')
     msg['Subject'] = subject
     msg['From'] = sender_email
     msg['To'] = recipient_email
@@ -19,5 +23,6 @@ def send_email(data):
         with smtplib.SMTP_SSL('smtp.aol.com', 465) as server:
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, recipient_email, msg.as_string())
+            print(f"Email sent successfully")
     except Exception as e:
         print(f"Failed to send email: {e}")
