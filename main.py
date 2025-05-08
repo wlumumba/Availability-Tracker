@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from datetime import datetime
-from trackers import macbook_512
+from trackers import macbook_1tb_black
 from trackers import fifteenth_street
 import email_service
 
@@ -19,7 +19,7 @@ def main():
     print(datetime.today())
 
     trackers = {
-        "macbook_512": ["fetch", "process", "template"],
+        "macbook_1tb_black": ["fetch", "process", "template"],
         # "fifteenth_street": ["fetch", "process", "template"]
     }
 

@@ -1,6 +1,6 @@
 import requests
 
-tracker_name = "macbook_512"
+tracker_name = "macbook_1tb_black"
 product_desc = "M4 MacBook Pro 14 inch 512GB - Space Black"
 
 def fetch():
@@ -21,7 +21,7 @@ def process(response):
             if buyability_message.get(key, {}).get("G1FF2LL/A", {}).get("isBuyable", False):
                 return (True, f"{product_desc} is available for purchase!")
             else:
-                print(f"No {product_desc} stocked.")
+                print(f"No {product_desc}")
                 return (False, "")
         
     return response
