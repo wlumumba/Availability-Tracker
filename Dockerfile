@@ -10,6 +10,12 @@ COPY . /app
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Create the hashes directory
+RUN mkdir -p /app/hashes
+
+# Set the HASH_DIR environment variable for hashes
+ENV HASH_DIR=/app/hashes
+
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
