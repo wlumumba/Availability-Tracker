@@ -21,6 +21,8 @@ def send_email(data):
     
     try:
         with smtplib.SMTP_SSL('smtp.aol.com', 465) as server:
+            print(f"Email details - sender: {sender_email}, password: {sender_password}, receiver: {recipient_email}")
+
             server.login(sender_email, sender_password)
             server.sendmail(sender_email, recipient_email, msg.as_string())
             print(f"Email sent successfully")
