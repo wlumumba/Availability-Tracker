@@ -16,6 +16,7 @@ RUN mkdir -p /app/hashes
 # Set the HASH_DIR environment variable for hashes
 ENV HASH_DIR=/app/hashes
 
+
 # Make port 80 available to the world outside this container
 EXPOSE 80
 
