@@ -18,9 +18,9 @@ def main():
     print(datetime.today())
 
     trackers = {
-        # "macbook_1tb_black": ["fetch", "process", "template"],
-        # "macbook_1tb_silver": ["fetch", "process", "template"],
-        "fifteenth_street": ["fetch", "process", "template"]
+        "macbook_1tb_black": ["fetch", "process", "template"],
+        "macbook_1tb_silver": ["fetch", "process", "template"],
+        # "fifteenth_street": ["fetch", "process", "template"]
     }
 
     final_templates = {}
