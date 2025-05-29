@@ -10,8 +10,8 @@ RUN pip install uv
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install any needed packages specified in requirements.txt using uv
-RUN uv pip sync requirements.txt
+# Install dependencies using uv sync
+RUN uv sync
 
 # Create the hashes directory
 RUN mkdir -p /app/hashes
