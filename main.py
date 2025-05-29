@@ -22,7 +22,7 @@ def main():
         # "macbook_1tb_silver": ["fetch", "process", "template"],
         # "fifteenth_street": ["fetch", "process", "template"],
         "tesla_model_s": ["fetch", "process", "template"],
-        "tesla_model_three": ["fetch", "process", "template"]
+        # "tesla_model_three": ["fetch", "process", "template"]
     }
 
     final_templates = {}
