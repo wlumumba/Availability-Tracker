@@ -38,7 +38,7 @@ def fetch():
         return ("error", f"Failed to fetch data from API (Status {response.status_code}): ", f"Body: {response.text}")
 
 def process(response):
-    print(str(response)[:500] + ' truncated...')  # log response
+    print(str(response)[:1000] + ' truncated...')  # log response
 
     if response and 'error' not in response:
         # Create a dictionary to store availability by location
