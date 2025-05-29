@@ -10,7 +10,7 @@ RUN pip install uv
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install dependencies using uv sync
+# Install dependencies using uv sync and activate the virtual environment
 RUN uv sync
 
 # Create the hashes directory
@@ -18,6 +18,7 @@ RUN mkdir -p /app/hashes
 
 # Set the HASH_DIR environment variable for hashes
 ENV HASH_DIR=/app/hashes
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
