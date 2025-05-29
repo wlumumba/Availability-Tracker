@@ -33,7 +33,7 @@ def fetch():
     if response.status_code == 200:
         return response.json()
     else:
-        return ("error", "Failed to fetch data from API: ", response)
+        return ("error", "Failed to fetch data from API: ", str(response.json()))
 
 def process(response):
     print(str(response)[:500] + ' truncated...')  # log response

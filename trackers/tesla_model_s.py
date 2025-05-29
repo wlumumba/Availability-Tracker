@@ -33,10 +33,10 @@ def fetch():
     if response.status_code == 200:
         return response.json()
     else:
-        return ("error", "Failed to fetch data from API: ", response)
+        return ("error", "Failed to fetch data from API: ", str(response.json()))
 
 def process(response):
-    print(str(response)[:500] + ' truncated...')  # log response
+    print(str(response)[:1000] + ' truncated...')  # log response
 
     if response and 'error' not in response:
         # Create a dictionary to store availability by location
