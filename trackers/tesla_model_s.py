@@ -30,7 +30,7 @@ def fetch():
     }
     
     session = get_session()
-    response = session.get(api_url, headers=headers)
+    response = session.get(api_url, headers=headers, timeout=20)
     if response.status_code == 200:
         return response.json()
     else:

@@ -7,5 +7,5 @@ requires-python = ">=3.13"
 dependencies = [
     "python-dotenv>=1.1.0",
     "requests>=2.32.3",
-    "hrequests[all]>=0.1.0",
+    "hrequests[all]>=0.7.0",
 ]
