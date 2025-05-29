@@ -5,7 +5,6 @@ from util import compute_hash, read_last_hash, write_hash
 
 tracker_name = "fifteenth_street"
 hash_file_path = f"{os.getenv('HASH_DIR', 'hashes')}/{tracker_name}.txt"
-print(hash_file_path)
 
 def fetch():
     api_url = "https://doorway-api.knockrentals.com/v1/property/2012477/units"
