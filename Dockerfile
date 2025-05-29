@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y build-essential && rm -rf /var/lib/apt/lists/*
 
 # Install uv
-RUN pip install uv
+RUN pip install --no-cache-dir uv
 
 # Copy the current directory contents into the container at /app
 COPY . /app
