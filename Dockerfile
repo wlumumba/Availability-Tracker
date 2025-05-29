@@ -11,7 +11,7 @@ RUN pip install uv
 COPY . /app
 
 # Install any needed packages specified in requirements.txt using uv
-RUN uv pip install --no-cache -r requirements.txt
+RUN uv pip sync requirements.txt
 
 # Create the hashes directory
 RUN mkdir -p /app/hashes
