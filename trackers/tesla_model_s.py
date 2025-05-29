@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-import hrequests
+from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
 
 tracker_name = "tesla_model_s"
@@ -29,7 +29,8 @@ def fetch():
         "Postman-Token": "3bbac935-5912-428d-b382-5aba2e3b6ec1"
     }
     
-    response = hrequests.get(api_url, headers=headers)
+    session = get_session()
+    response = session.get(api_url, headers=headers)
     if response.status_code == 200:
         return response.json()
     else:

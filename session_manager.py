@@ -1,7 +1,7 @@
-import requests
+import hrequests
 
 # Create a shared session object
-session = requests.Session()
+session = hrequests.Session()
 
 def get_session():
     return session 
