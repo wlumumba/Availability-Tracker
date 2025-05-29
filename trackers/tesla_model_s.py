@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
+import requests
 
 tracker_name = "tesla_model_s"
 product_desc = "Tesla Model S"
@@ -29,7 +30,7 @@ def fetch():
     }
     
     session = get_session()
-    response = session.get(api_url, headers=headers)
+    response = requests.get(api_url, headers=headers)
     if response.status_code == 200:
         return response.json()
     else:

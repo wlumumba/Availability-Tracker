@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
+import time
 
 tracker_name = "tesla_model_three"
 product_desc = "Tesla Model 3"
@@ -28,6 +29,7 @@ def fetch():
         "x-account-locale": "en_us"
     }
     
+    time.sleep(5)
     session = get_session()
     response = session.get(api_url, headers=headers)
     if response.status_code == 200:
