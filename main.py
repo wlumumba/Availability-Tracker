@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from datetime import datetime
-from trackers import macbook_1tb_black, macbook_1tb_silver, fifteenth_street, tesla_model_s, tesla_model_three
+from trackers import tesla_model_s, tesla_model_three
 import email_service
 
 def run_tracker(tracker_module, functions):

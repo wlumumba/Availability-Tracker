@@ -1,4 +1,4 @@
-import requests
+# import requests
 import os
 from datetime import datetime, timedelta
 from util import compute_hash, read_last_hash, write_hash
