@@ -16,12 +16,15 @@ COPY . /app
 # Install dependencies using uv sync and activate the virtual environment
 RUN uv sync
 
-# Create the hashes directory
-RUN mkdir -p /app/hashes
-
-# Set the HASH_DIR environment variable for hashes
+# Set the environment variables first
 ENV HASH_DIR=/app/hashes
 ENV PATH="/app/.venv/bin:$PATH"
+
+# Pre-download hrequests-cgo library during build to avoid download on each container start
+RUN python -c "import hrequests; print('hrequests-cgo downloaded successfully')"
+
+# Create the hashes directory
+RUN mkdir -p /app/hashes
 
 # Make port 80 available to the world outside this container
 EXPOSE 80
