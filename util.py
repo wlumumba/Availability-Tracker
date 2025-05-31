@@ -3,6 +3,9 @@ import json
 import hashlib
 
 def compute_hash(units):
+    if type(units) == str:
+        units = sorted(units)
+
     units_str = json.dumps(units, sort_keys=True)
     return hashlib.sha256(units_str.encode()).hexdigest()
 
