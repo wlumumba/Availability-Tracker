@@ -3,7 +3,7 @@ import json
 import hashlib
 
 def compute_hash(units):
-    if type(units) == str:
+    if type(units) == list:
         units = sorted(units)
 
     units_str = json.dumps(units, sort_keys=True)

@@ -55,7 +55,7 @@ def process(response):
 
         # Check if any dates fall on Friday or Saturday
         has_weekend_slots = any(
-            datetime.strptime(date, "%Y-%m-%d").weekday() in [4, 5]  # 4 is Friday, 5 is Saturday
+            datetime.strptime(date, "%Y-%m-%d").weekday() in [3, 4, 5]  # 3 is Thursday, 4 is Friday, 5 is Saturday
             for date in date_keys
         )
 
