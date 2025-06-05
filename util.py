@@ -4,7 +4,7 @@ import hashlib
 
 def compute_hash(units):
     if type(units) == list:
-        units = sorted(units)
+        units = sorted(set(units))
 
     units_str = json.dumps(units, sort_keys=True)
     return hashlib.sha256(units_str.encode()).hexdigest()

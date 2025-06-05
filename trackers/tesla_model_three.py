@@ -70,7 +70,7 @@ def process(response):
         # Compute hash of the availability data
         if trt_ids_data and has_weekend_slots and compute_hash(date_keys) != read_last_hash(hash_file_path):
             write_hash(hash_file_path, compute_hash(date_keys))
-            print(f"Availability {product_desc} found on {date_keys}: ", availability_by_location)
+            print(f"Availability {product_desc} found on {set(date_keys)}: ", availability_by_location)
             return availability_by_location
         else:
             print(f"No changes in {product_desc} availability")
