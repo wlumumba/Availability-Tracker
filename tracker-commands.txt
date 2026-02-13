@@ -1,0 +1,7 @@
+docker build -t tracker .
+
+docker run --rm --env-file .env -v hashes:/app/hashes tracker > output.log
+
+python3 main.py >> output.log
+
+ docker run -d   --name ofelia   --volume /var/run/docker.sock:/var/run/docker.sock   --volume $(pwd)/ofelia.ini:/etc/ofelia/config.ini   mcuadros/ofelia:latest

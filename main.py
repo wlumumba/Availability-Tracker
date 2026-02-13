@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from datetime import datetime
-from trackers import tesla_model_s, tesla_model_three
+from trackers import tesla_model_s, tesla_model_three, sheridan
 import email_service
 
 def run_tracker(tracker_module, functions):
@@ -21,8 +21,9 @@ def main():
         # "macbook_1tb_black": ["fetch", "process", "template"],
         # "macbook_1tb_silver": ["fetch", "process", "template"],
         # "fifteenth_street": ["fetch", "process", "template"],
-        "tesla_model_s": ["fetch", "process", "template"],
-        "tesla_model_three": ["fetch", "process", "template"]
+        # "tesla_model_s": ["fetch", "process", "template"],
+        # "tesla_model_three": ["fetch", "process", "template"]
+        "sheridan": ["fetch", "process", "template"]
     }
 
     final_templates = {}

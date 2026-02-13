@@ -7,7 +7,7 @@ def send_email(data):
     sender_password = os.getenv("sender_password")
     recipient_email = os.getenv("recipient_email")
     
-    subject = "Availability Update"
+    subject = "Tracker Availability Update"
     body = "<br><br>".join([f"{tracker_name}:<br>{msg}" for tracker_name, msg in data.items() if msg])
     
     if not body:
