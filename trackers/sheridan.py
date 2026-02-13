@@ -25,7 +25,7 @@ def fetch():
         "sec-fetch-site": "same-origin",
         "sec-gpc": "1",
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
-        "x-api-key": "22203145-f21a-48c3-8a51-13b0ece4fd7d"
+        "x-api-key": os.getenv("sheridan_api_key")
     }
     session = get_session()
     response = session.get(api_url, headers=headers, timeout=20)
