@@ -138,3 +138,5 @@ coverage.xml
 # Local hash file
 units_hash.txt
 ofelia.ini
+launchd.log
+com.unit-tracker.main.plist
