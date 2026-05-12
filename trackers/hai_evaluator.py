@@ -51,21 +51,21 @@ def process(response):
 
     try:
         tasks = response[0]["result"]["data"]["json"].get("tasks") or []
-    except (IndexError, KeyError, TypeError, AttributeError) as exc:
-        return ("error", "Malformed HAI evaluator response: ", str(exc))
 
-    if not tasks:
-        print(f"No claimable tasks in: {product_desc}")
+        if not tasks:
+            print(f"No claimable tasks in: {product_desc}")
+            return ("null", "No changes")
+
+        current_hash = compute_hash(len(tasks))
+        if current_hash != read_last_hash(hash_file_path):
+            write_hash(hash_file_path, current_hash)
+            print(f"Changes detected in {product_desc}: ", tasks)
+            return tasks
+
+        print(f"No changes in {product_desc}")
         return ("null", "No changes")
-
-    current_hash = compute_hash(tasks)
-    if current_hash != read_last_hash(hash_file_path):
-        write_hash(hash_file_path, current_hash)
-        print(f"Changes detected in {product_desc}: ", tasks)
-        return tasks
-
-    print(f"No changes in {product_desc}")
-    return ("null", "No changes")
+    except Exception as exc:
+        return ("error", "Process step error: ", str(exc))
 
 
 def template(tasks):
@@ -76,4 +76,4 @@ def template(tasks):
     if not tasks:
         return ""
 
-    return f"{product_desc}: Tasks are available"
+    return f"{product_desc}: {len(tasks)} tasks are available"
