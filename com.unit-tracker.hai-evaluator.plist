@@ -12,8 +12,33 @@
     </array>
     <key>WorkingDirectory</key>
     <string>/Users/wycliff/Documents/unit_tracker</string>
-    <key>StartInterval</key>
-    <integer>900</integer>
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <dict>
+            <key>Minute</key>
+            <integer>10</integer>
+        </dict>
+        <dict>
+            <key>Minute</key>
+            <integer>20</integer>
+        </dict>
+        <dict>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+        <dict>
+            <key>Minute</key>
+            <integer>40</integer>
+        </dict>
+        <dict>
+            <key>Minute</key>
+            <integer>50</integer>
+        </dict>
+    </array>
     <key>StandardOutPath</key>
     <string>/Users/wycliff/Documents/unit_tracker/launchd.log</string>
     <key>StandardErrorPath</key>

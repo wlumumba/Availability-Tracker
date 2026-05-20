@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
@@ -56,7 +57,17 @@ def process(response):
             print(f"No claimable tasks in: {product_desc}")
             return ("null", "No changes")
 
-        current_hash = compute_hash(len(tasks))
+        print(f"Fetched {len(tasks)} tasks")
+        
+        now = datetime.now()
+        current_hash = compute_hash(
+            {
+                "task_count": len(tasks),
+                "date": now.strftime("%Y-%m-%d"),
+                "hour": now.hour,
+                "half_hour_bucket": 0 if now.minute < 30 else 1,
+            }
+        )
         if current_hash != read_last_hash(hash_file_path):
             write_hash(hash_file_path, current_hash)
             print(f"Changes detected in {product_desc}: ", tasks)
