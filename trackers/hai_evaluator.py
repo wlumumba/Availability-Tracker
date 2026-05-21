@@ -58,14 +58,14 @@ def process(response):
             return ("null", "No changes")
 
         print(f"Fetched {len(tasks)} tasks")
-        
+
         now = datetime.now()
         current_hash = compute_hash(
             {
                 "task_count": len(tasks),
                 "date": now.strftime("%Y-%m-%d"),
-                "hour": now.hour,
-                "half_hour_bucket": 0 if now.minute < 30 else 1,
+                # "hour": now.hour,
+                # "half_hour_bucket": 0 if now.minute < 30 else 1,
             }
         )
         if current_hash != read_last_hash(hash_file_path):
@@ -80,9 +80,9 @@ def process(response):
 
 
 def template(tasks):
-    if "error" in str(tasks):
+    if len(tasks) > 1 and "error" in str(tasks):
         return tasks[1] + tasks[2]
-    if "null" in tasks:
+    if len(tasks) > 1 and "null" in tasks:
         return ""
     if not tasks:
         return ""
