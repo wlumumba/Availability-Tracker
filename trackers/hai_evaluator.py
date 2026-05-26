@@ -16,7 +16,7 @@ def fetch():
         "?batch=1&input=%7B%220%22%3A%7B%22json%22%3A%7B%22annotationProjectId%22%3A"
         "%22aebaf7d0-8cc1-4b11-82bc-3a57a2f4ff4f%22%2C%22pipelineStageId%22%3Anull%2C"
         "%22attempters%22%3Anull%2C%22search%22%3Anull%2C%22sortBy%22%3A%22default%22"
-        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A10%2C%22offset%22%3A0%2C%22"
+        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A0%2C%22"
         "categories%22%3Anull%2C%22priorityLevel%22%3Anull%7D%2C%22meta%22%3A%7B%22"
         "values%22%3A%7B%22pipelineStageId%22%3A%5B%22undefined%22%5D%2C%22attempters"
         "%22%3A%5B%22undefined%22%5D%2C%22search%22%3A%5B%22undefined%22%5D%2C%22cat"
@@ -64,8 +64,8 @@ def process(response):
             {
                 "task_count": len(tasks),
                 "date": now.strftime("%Y-%m-%d"),
-                # "hour": now.hour,
-                # "half_hour_bucket": 0 if now.minute < 30 else 1,
+                "hour": now.hour,
+                "half_hour_bucket": 0 if now.minute < 30 else 1,
             }
         )
         if current_hash != read_last_hash(hash_file_path):
