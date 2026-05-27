@@ -59,9 +59,4 @@ def template(products):
     elif not products:
         return f"{product_desc}: No products available"
     else:
-        email_body = [f"<b>{product_desc}</b>"]
-        for p in products:
-            email_body.append(f"<br><b>{p.get('prdctName')}</b>")
-            for rp in p.get('ratePlans', []):
-                email_body.append(f"&nbsp;&nbsp;- {rp.get('description')}: ${rp.get('price')}")
-        return "<br>".join(email_body)
+        return f"{product_desc} is available."
