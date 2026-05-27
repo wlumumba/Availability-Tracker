@@ -38,16 +38,16 @@ def fetch():
         return response.json()
     else:
         return (
-            "error",
-            f"Failed to fetch data from API (Status {response.status_code}): ",
-            f"Body: {response.text}",
+            "failure",
+            f"Failed to fetch data from API (Status {response.status_code}) ",
+            f"body: {response.text}",
         )
 
 
 def process(response):
     print(str(response)[:1000] + " truncated...")
 
-    if not response or "error" in str(response):
+    if not response or "failure" in str(response):
         return response
 
     try:
@@ -76,11 +76,11 @@ def process(response):
         print(f"No changes in {product_desc}")
         return ("null", "No changes")
     except Exception as exc:
-        return ("error", "Process step error: ", str(exc))
+        return ("failure", "Process step error: ", str(exc))
 
 
 def template(tasks):
-    if len(tasks) > 1 and "error" in str(tasks):
+    if len(tasks) > 1 and "failure" in str(tasks):
         return tasks[1] + tasks[2]
     if len(tasks) > 1 and "null" in tasks:
         return ""
