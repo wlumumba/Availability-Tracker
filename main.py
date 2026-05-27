@@ -4,6 +4,7 @@ import sys
 from dotenv import load_dotenv
 from datetime import datetime
 import email_service
+import pushover_service
 
 TRACKER_MODULE_PATHS = {
     "tesla_model_s": "trackers.tesla_model_s",
@@ -83,8 +84,11 @@ def main():
         result = run_tracker(tracker_module, functions)
         final_templates[tracker_name] = result
 
-    # Send results to email_service
-    email_service.send_email(final_templates)
+    # V1: Send results to email_service
+    # email_service.send_email(final_templates)
+
+    #V2: Send results to pushover_service
+    pushover_service.send_notifications(final_templates)
 
 if __name__ == "__main__":
     main()

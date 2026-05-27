@@ -62,7 +62,7 @@ def process(response):
         now = datetime.now()
         current_hash = compute_hash(
             {
-                "task_count": len(tasks),
+                "task_count": len(tasks[:10]),
                 "date": now.strftime("%Y-%m-%d"),
                 "hour": now.hour,
                 "half_hour_bucket": 0 if now.minute < 30 else 1,
