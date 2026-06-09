@@ -140,3 +140,4 @@ units_hash.txt
 ofelia.ini
 launchd.log
 com.unit-tracker.main.plist
+com.unit-tracker*.plist
