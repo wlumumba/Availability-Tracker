@@ -10,7 +10,7 @@ TRACKER_MODULE_PATHS = {
     "tesla_model_s": "trackers.tesla_model_s",
     "tesla_model_three": "trackers.tesla_model_three",
     "sheridan": "trackers.sheridan",
-    "hai_evaluator": "trackers.hai_evaluator",
+    "hai_ivy_track": "trackers.hai_ivy_track",
 }
 
 TRACKER_PIPELINES = {
@@ -20,7 +20,7 @@ TRACKER_PIPELINES = {
     # "tesla_model_s": ["fetch", "process", "template"],
     # "tesla_model_three": ["fetch", "process", "template"],
     "sheridan": ["fetch", "process", "template"],
-    "hai_evaluator": ["fetch", "process", "template"],
+    "hai_ivy_track": ["fetch", "process", "template"],
 }
 
 

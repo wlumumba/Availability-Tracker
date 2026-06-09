@@ -4,7 +4,7 @@ from datetime import datetime
 from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
 
-tracker_name = "hai_evaluator"
+tracker_name = "hai_ivy_track"
 product_desc = "HAI Ivy"
 hash_file_path = f"{os.getenv('HASH_DIR', 'hashes')}/{tracker_name}.txt"
 
@@ -29,7 +29,7 @@ def fetch():
             "https://ai.joinhandshake.com/fellow/"
             "aebaf7d0-8cc1-4b11-82bc-3a57a2f4ff4f/tasks"
         ),
-        "cookie": os.getenv("hai_evaluator_cookie", ""),
+        "cookie": os.getenv("hai_ivy_track_cookie", os.getenv("hai_evaluator_cookie", "")),
     }
     
     session = get_session()
