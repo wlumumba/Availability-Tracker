@@ -5,7 +5,7 @@ from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
 
 tracker_name = "hai_evaluator"
-product_desc = "HAI Ivy API"
+product_desc = "HAI Ivy"
 hash_file_path = f"{os.getenv('HASH_DIR', 'hashes')}/{tracker_name}.txt"
 
 
