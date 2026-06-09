@@ -16,7 +16,7 @@ def fetch():
         "?batch=1&input=%7B%220%22%3A%7B%22json%22%3A%7B%22annotationProjectId%22%3A"
         "%220a29b2f4-390e-453e-961a-d477493b5b81%22%2C%22pipelineStageId%22%3Anull%2C"
         "%22attempters%22%3Anull%2C%22search%22%3Anull%2C%22sortBy%22%3A%22default%22"
-        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A10%2C%22offset%22%3A0%2C%22c"
+        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A0%2C%22c"
         "ategories%22%3Anull%2C%22priorityLevel%22%3Anull%7D%2C%22meta%22%3A%7B%22v"
         "alues%22%3A%7B%22pipelineStageId%22%3A%5B%22undefined%22%5D%2C%22attempters"
         "%22%3A%5B%22undefined%22%5D%2C%22search%22%3A%5B%22undefined%22%5D%2C%22cat"
