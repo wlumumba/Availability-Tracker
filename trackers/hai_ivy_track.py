@@ -39,7 +39,7 @@ def fetch():
     else:
         return (
             "failure",
-            f"Failed to fetch data from API (Status {response.status_code}) ",
+            f"Ivy API failed to fetch data (Status {response.status_code}) ",
             f"body: {response.text}",
         )
 
