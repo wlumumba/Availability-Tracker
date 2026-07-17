@@ -1,12 +1,40 @@
 import os
 from datetime import datetime
 
+from tenacity import retry, retry_if_result, stop_after_attempt, wait_exponential
+
 from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
 
 tracker_name = "hai_ivy_track"
 product_desc = "HAI Ivy"
 hash_file_path = f"{os.getenv('HASH_DIR', 'hashes')}/{tracker_name}.txt"
+MAX_RETRIES = 3
+
+
+def _is_503(response):
+    return response.status_code == 503
+
+
+def _print_retry(retry_state):
+    delay = retry_state.next_action.sleep
+    retry_number = retry_state.attempt_number
+    print(
+        f"{product_desc}: received 503; "
+        f"retrying {retry_number}/{MAX_RETRIES} in {delay:g}s",
+        flush=True,
+    )
+
+
+@retry(
+    retry=retry_if_result(_is_503),
+    stop=stop_after_attempt(MAX_RETRIES + 1),
+    wait=wait_exponential(multiplier=1, min=1, max=4),
+    before_sleep=_print_retry,
+    retry_error_callback=lambda state: state.outcome.result(),
+)
+def _get_ivy_response(session, api_url, headers):
+    return session.get(api_url, headers=headers, timeout=20)
 
 
 def fetch():
@@ -31,17 +59,17 @@ def fetch():
         ),
         "cookie": os.getenv("hai_ivy_track_cookie", os.getenv("hai_evaluator_cookie", "")),
     }
-    
+
     session = get_session()
-    response = session.get(api_url, headers=headers, timeout=20)
+    response = _get_ivy_response(session, api_url, headers)
     if response.status_code == 200:
         return response.json()
-    else:
-        return (
-            "failure",
-            f"Ivy API failed to fetch data (Status {response.status_code}) ",
-            f"body: {response.text}",
-        )
+
+    return (
+        "failure",
+        f"Ivy API failed to fetch data (Status {response.status_code}) ",
+        f"body: {response.text}",
+    )
 
 
 def process(response):
@@ -65,7 +93,8 @@ def process(response):
                 "task_count": len(tasks[:10]),
                 "date": now.strftime("%Y-%m-%d"),
                 "hour": now.hour,
-                "half_hour_bucket": 0 if now.minute < 30 else 1,
+                "half_hour_bucket": now.minute // 30,
+                "quarter_hour_bucket": now.minute // 15,
             }
         )
         if current_hash != read_last_hash(hash_file_path):
