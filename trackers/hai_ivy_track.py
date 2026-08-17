@@ -60,16 +60,19 @@ def fetch():
         "cookie": os.getenv("hai_ivy_track_cookie", os.getenv("hai_evaluator_cookie", "")),
     }
 
-    session = get_session()
-    response = _get_ivy_response(session, api_url, headers)
-    if response.status_code == 200:
-        return response.json()
+    try:
+        session = get_session()
+        response = _get_ivy_response(session, api_url, headers)
+        if response.status_code == 200:
+            return response.json()
 
-    return (
-        "failure",
-        f"Ivy API failed to fetch data (Status {response.status_code}) ",
-        f"body: {response.text}",
-    )
+        return (
+            "failure",
+            f"Ivy API failed to fetch data (Status {response.status_code}) ",
+            f"body: {response.text}",
+        )
+    except Exception as exc:
+        return ("failure", "Ivy API fetch error: ", str(exc))
 
 
 def process(response):
