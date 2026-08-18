@@ -117,4 +117,5 @@ def template(tasks):
     if not tasks:
         return ""
 
-    return f"{product_desc}: {len(tasks)} tasks are available"
+    task_count = "10+" if len(tasks) > 10 else str(len(tasks))
+    return f"{product_desc}: {task_count} tasks are available"

@@ -46,7 +46,7 @@ Create an incoming webhook for each Discord channel that should receive tracker
 notifications. Assign each channel an alias, then map tracker names to aliases:
 
 ```env
-DISCORD_ROUTES=hai_agora_track=HAI_JOBS,hai_ivy_track=HAI_JOBS,sheridan=APARTMENTS
+DISCORD_ROUTES=hai_ivy_track=HAI_JOBS,hai_equator_track=HAI_JOBS,sheridan=APARTMENTS
 DISCORD_WEBHOOK_HAI_JOBS=https://discord.com/api/webhooks/...
 DISCORD_WEBHOOK_APARTMENTS=https://discord.com/api/webhooks/...
 ```

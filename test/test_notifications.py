@@ -21,13 +21,13 @@ class NotificationRoutingTests(unittest.TestCase):
 
     def test_routes_group_by_channel_and_leave_defaults_on_pushover(self):
         data = {
-            "hai_agora_track": "agora",
             "hai_ivy_track": "ivy",
+            "hai_equator_track": "equator",
             "sheridan": "apartment",
         }
         env = {
             "DISCORD_ROUTES": (
-                "hai_agora_track=HAI_JOBS, hai_ivy_track=HAI_JOBS"
+                "hai_ivy_track=HAI_JOBS, hai_equator_track=HAI_JOBS"
             ),
             "DISCORD_WEBHOOK_HAI_JOBS": "https://example.test/webhook",
         }
@@ -40,17 +40,17 @@ class NotificationRoutingTests(unittest.TestCase):
 
         pushover.assert_called_once_with({"sheridan": "apartment"})
         discord.assert_called_once_with(
-            {"hai_agora_track": "agora", "hai_ivy_track": "ivy"},
+            {"hai_ivy_track": "ivy", "hai_equator_track": "equator"},
             "https://example.test/webhook",
             "HAI_JOBS",
         )
 
     def test_missing_webhook_does_not_fall_back(self):
-        data = {"hai_agora_track": "agora", "sheridan": "apartment"}
+        data = {"hai_ivy_track": "ivy", "sheridan": "apartment"}
         with (
             patch.dict(
                 os.environ,
-                {"DISCORD_ROUTES": "hai_agora_track=HAI_JOBS"},
+                {"DISCORD_ROUTES": "hai_ivy_track=HAI_JOBS"},
                 clear=True,
             ),
             patch.object(main.pushover_service, "send_notifications") as pushover,
@@ -62,9 +62,9 @@ class NotificationRoutingTests(unittest.TestCase):
         discord.assert_not_called()
 
     def test_different_aliases_use_different_webhooks(self):
-        data = {"hai_agora_track": "agora", "sheridan": "apartment"}
+        data = {"hai_ivy_track": "ivy", "sheridan": "apartment"}
         env = {
-            "DISCORD_ROUTES": "hai_agora_track=JOBS,sheridan=APARTMENTS",
+            "DISCORD_ROUTES": "hai_ivy_track=JOBS,sheridan=APARTMENTS",
             "DISCORD_WEBHOOK_JOBS": "https://example.test/jobs",
             "DISCORD_WEBHOOK_APARTMENTS": "https://example.test/apartments",
         }
@@ -80,7 +80,7 @@ class NotificationRoutingTests(unittest.TestCase):
             discord.call_args_list,
             [
                 call(
-                    {"hai_agora_track": "agora"},
+                    {"hai_ivy_track": "ivy"},
                     "https://example.test/jobs",
                     "JOBS",
                 ),
@@ -137,7 +137,7 @@ class DiscordServiceTests(unittest.TestCase):
     @patch.object(discord_service.requests, "post")
     def test_skips_empty_messages(self, post):
         discord_service.send_notifications(
-            {"sheridan": "   ", "hai_agora_track": None},
+            {"sheridan": "   ", "hai_equator_track": None},
             "https://example.test/webhook",
             "TEST",
         )

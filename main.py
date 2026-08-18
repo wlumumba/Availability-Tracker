@@ -8,22 +8,13 @@ from datetime import datetime
 from service import discord_service, email_service, pushover_service
 
 TRACKER_MODULE_PATHS = {
-    "tesla_model_s": "trackers.tesla_model_s",
-    "tesla_model_three": "trackers.tesla_model_three",
     "sheridan": "trackers.sheridan",
-    "hai_agora_track": "trackers.hai_agora_track",
     "hai_ivy_track": "trackers.hai_ivy_track",
     "hai_equator_track": "trackers.hai_equator_track",
 }
 
 TRACKER_PIPELINES = {
-    # "macbook_1tb_black": ["fetch", "process", "template"],
-    # "macbook_1tb_silver": ["fetch", "process", "template"],
-    # "fifteenth_street": ["fetch", "process", "template"],
-    # "tesla_model_s": ["fetch", "process", "template"],
-    # "tesla_model_three": ["fetch", "process", "template"],
     "sheridan": ["fetch", "process", "template"],
-    # "hai_agora_track": ["fetch", "process", "template"],
     "hai_ivy_track": ["fetch", "process", "template"],
     "hai_equator_track": ["fetch", "process", "template"],
 }
