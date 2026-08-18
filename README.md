@@ -1,13 +1,13 @@
 # Availability Tracker
 
-A Python-based tool for tracking availability across different sources. This program can be used to monitor availability of apartments, products, appointments, or anything with an API, and sends email notifications when changes are detected. It can be configured to run via cron job at user-specified intervals for automated monitoring.
+A Python-based tool for tracking availability across different sources. This program can be used to monitor availability of apartments, products, appointments, or anything with an API, and sends notifications when changes are detected. It can be configured to run via cron job at user-specified intervals for automated monitoring.
 
 ## Purpose
 
 - Tracks availability of multiple items simultaneously
 - Modular design for easy addition of new trackers
-- Email notifications for availability changes
-- Docker support for containerized deployment
+- Pushover notifications by default
+- Optional per-tracker Discord channel routing
 
 ## Prerequisites
 
@@ -34,13 +34,27 @@ source .venv/bin/activate
 
 ## Configuration
 
-1. Create a `.env` file in the root directory with the following variables:
+1. Create a `.env` file in the root directory with your Pushover credentials:
 ```
-# Add your email configuration here (only supports AOL emails for now..)
-EMAIL_SENDER=your-email@example.com
-EMAIL_PASSWORD=your-email-password
-EMAIL_RECIPIENT=recipient@example.com
+pushover_app_token=your-app-token
+pushover_user_key=your-user-key
 ```
+
+### Discord channels
+
+Create an incoming webhook for each Discord channel that should receive tracker
+notifications. Assign each channel an alias, then map tracker names to aliases:
+
+```env
+DISCORD_ROUTES=hai_agora_track=HAI_JOBS,hai_ivy_track=HAI_JOBS,sheridan=APARTMENTS
+DISCORD_WEBHOOK_HAI_JOBS=https://discord.com/api/webhooks/...
+DISCORD_WEBHOOK_APARTMENTS=https://discord.com/api/webhooks/...
+```
+
+Aliases may contain uppercase letters, numbers, and underscores. Each tracker can
+appear once and route to one Discord channel. Trackers omitted from
+`DISCORD_ROUTES` continue to use Pushover. If a Discord webhook is missing or a
+send fails, that notification is logged and is not rerouted to Pushover.
 
 ## Usage
 
@@ -52,21 +66,13 @@ python3 main.py
 The program will:
 1. Check availability for configured items
 2. Process the results
-3. Send email notifications if there are any changes
+3. Send notifications through Pushover or the configured Discord channel
 
 ## Project Structure
 
 - `main.py` - Main program entry point
 - `trackers/` - Directory containing individual item trackers
-- `email_service.py` - Handles email notifications
+- `plists/` - macOS launch agent templates
+- `service/pushover_service.py` - Handles default Pushover notifications
+- `service/discord_service.py` - Handles Discord webhook notifications
 - `util.py` - Utility functions
-- `Dockerfile` - Container configuration
-
-## Docker Support
-
-To run the program using Docker:
-
-```bash
-docker build -t availability-tracker .
-docker run availability-tracker
-```
