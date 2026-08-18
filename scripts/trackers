@@ -1,0 +1,180 @@
+#!/bin/sh
+
+# Toggle the unit tracker's macOS LaunchAgents.
+#
+# Quick examples:
+#   ./trackers status all
+#   ./trackers off ivy
+#   ./trackers on ivy
+#
+# Run `./trackers help` for the full command reference.
+
+set -u
+
+all_trackers="ivy equator sheridan"
+user_domain="gui/$(id -u)"
+launch_agents_dir="$HOME/Library/LaunchAgents"
+
+
+show_help() {
+    cat <<'EOF'
+Manage the unit tracker LaunchAgents.
+
+Usage:
+  ./trackers <command> <tracker>
+  ./trackers help
+
+Commands:
+  on       Enable and load a tracker.
+  off      Disable and unload a tracker.
+  status   Show whether a tracker is currently loaded.
+  help     Show this help message.
+
+Trackers:
+  ivy
+  equator
+  sheridan
+  all       Apply the command to every tracker above.
+
+Examples:
+  ./trackers status all
+  ./trackers off ivy
+  ./trackers on ivy
+  ./trackers off all
+
+Notes:
+  - This script is for macOS and does not require sudo.
+  - "off" persists across logins until you run "on" again.
+  - Active plist files live in ~/Library/LaunchAgents.
+EOF
+}
+
+
+tracker_label() {
+    case "$1" in
+        ivy)      echo "com.unit-tracker.hai-ivy-track" ;;
+        equator) echo "com.unit-tracker.hai-equator-track" ;;
+        sheridan) echo "com.unit-tracker.sheridan" ;;
+        *) return 1 ;;
+    esac
+}
+
+
+is_loaded() {
+    launchctl print "$user_domain/$1" >/dev/null 2>&1
+}
+
+
+turn_on() {
+    tracker_name=$1
+    label=$(tracker_label "$tracker_name")
+    plist_path="$launch_agents_dir/$label.plist"
+
+    if [ ! -f "$plist_path" ]; then
+        echo "$tracker_name: cannot turn on; missing $plist_path" >&2
+        return 1
+    fi
+
+    if ! launchctl enable "$user_domain/$label"; then
+        echo "$tracker_name: failed to enable" >&2
+        return 1
+    fi
+
+    if is_loaded "$label"; then
+        echo "$tracker_name: ON (already loaded)"
+        return 0
+    fi
+
+    if launchctl bootstrap "$user_domain" "$plist_path"; then
+        echo "$tracker_name: ON"
+    else
+        echo "$tracker_name: failed to load" >&2
+        return 1
+    fi
+}
+
+
+turn_off() {
+    tracker_name=$1
+    label=$(tracker_label "$tracker_name")
+
+    if ! launchctl disable "$user_domain/$label"; then
+        echo "$tracker_name: failed to disable" >&2
+        return 1
+    fi
+
+    if is_loaded "$label" && ! launchctl bootout "$user_domain/$label"; then
+        echo "$tracker_name: disabled but failed to unload" >&2
+        return 1
+    fi
+
+    echo "$tracker_name: OFF"
+}
+
+
+show_status() {
+    tracker_name=$1
+    label=$(tracker_label "$tracker_name")
+
+    if is_loaded "$label"; then
+        echo "$tracker_name: ON"
+    else
+        echo "$tracker_name: OFF"
+    fi
+}
+
+
+if [ "$#" -eq 0 ]; then
+    show_help
+    exit 0
+fi
+
+case "$1" in
+    help|-h|--help)
+        show_help
+        exit 0
+        ;;
+    on|off|status)
+        command_name=$1
+        ;;
+    *)
+        echo "Unknown command: $1" >&2
+        echo "Run './trackers help' for usage." >&2
+        exit 2
+        ;;
+esac
+
+if [ "$#" -ne 2 ]; then
+    echo "The '$command_name' command requires one tracker name." >&2
+    echo "Run './trackers help' for usage." >&2
+    exit 2
+fi
+
+target=$2
+if [ "$target" != "all" ] && ! tracker_label "$target" >/dev/null; then
+    echo "Unknown tracker: $target" >&2
+    echo "Choose ivy, equator, sheridan, or all." >&2
+    exit 2
+fi
+
+if ! command -v launchctl >/dev/null 2>&1; then
+    echo "launchctl is unavailable; this script requires macOS." >&2
+    exit 1
+fi
+
+if [ "$target" = "all" ]; then
+    targets=$all_trackers
+else
+    targets=$target
+fi
+
+exit_code=0
+for tracker_name in $targets; do
+    case "$command_name" in
+        on) turn_on "$tracker_name" || exit_code=1 ;;
+        off) turn_off "$tracker_name" || exit_code=1 ;;
+        status) show_status "$tracker_name" ;;
+    esac
+done
+
+exit "$exit_code"
