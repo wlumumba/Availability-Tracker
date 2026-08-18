@@ -44,7 +44,7 @@ def fetch():
         "?batch=1&input=%7B%220%22%3A%7B%22json%22%3A%7B%22annotationProjectId%22%3A"
         "%2284828944-4139-4c17-8166-2a562f835eb0%22%2C%22pipelineStageId%22%3Anull%2C"
         "%22attempters%22%3Anull%2C%22search%22%3Anull%2C%22sortBy%22%3A%22updatedAt%22"
-        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A10%2C%22offset%22%3A10%2C%22"
+        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A10%2C%22"
         "categories%22%3Anull%2C%22priorityLevel%22%3Anull%7D%2C%22meta%22%3A%7B%22"
         "values%22%3A%7B%22pipelineStageId%22%3A%5B%22undefined%22%5D%2C%22attempters"
         "%22%3A%5B%22undefined%22%5D%2C%22search%22%3A%5B%22undefined%22%5D%2C%22cat"
@@ -78,7 +78,7 @@ def fetch():
 def process(response):
     print(str(response)[:1000] + " truncated...")
 
-    if not response or "failure" in str(response):
+    if not response or (type(response) == tuple and "failure" in response[0]):
         return response
 
     try:
@@ -110,12 +110,11 @@ def process(response):
 
 
 def template(tasks):
-    if len(tasks) > 1 and "failure" in str(tasks):
+    if type(tasks) == tuple and "failure" in tasks[0]:
         return tasks[1] + tasks[2]
-    if len(tasks) > 1 and "null" in tasks:
+    if type(tasks) == tuple and "null" in tasks:
         return ""
     if not tasks:
         return ""
 
-    task_count = "10+" if len(tasks) > 10 else str(len(tasks))
-    return f"{product_desc}: {task_count} tasks are available"
+    return f"{product_desc}: {len(tasks)} tasks are available"

@@ -78,7 +78,7 @@ def fetch():
 def process(response):
     print(str(response)[:1000] + " truncated...")
 
-    if not response or "failure" in str(response):
+    if not response or (type(response) == tuple and "failure" in response[0]):
         return response
 
     try:
@@ -112,12 +112,11 @@ def process(response):
 
 
 def template(tasks):
-    if len(tasks) > 1 and "failure" in str(tasks):
+    if type(tasks) == tuple and "failure" in tasks[0]:
         return tasks[1] + tasks[2]
-    if len(tasks) > 1 and "null" in tasks:
+    if type(tasks) == tuple and "null" in tasks:
         return ""
     if not tasks:
         return ""
 
-    task_count = "10+" if len(tasks) > 10 else str(len(tasks))
-    return f"{product_desc}: {task_count} tasks are available"
+    return f"{product_desc}: {len(tasks)} tasks are available"
