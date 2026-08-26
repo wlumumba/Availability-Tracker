@@ -6,8 +6,8 @@ from tenacity import retry, retry_if_result, stop_after_attempt, wait_exponentia
 from session_manager import get_session
 from util import compute_hash, read_last_hash, write_hash
 
-tracker_name = "hai_equator_track"
-product_desc = "HAI Equator"
+tracker_name = "hai_roadhouse_tracker"
+product_desc = "HAI Roadhouse"
 hash_file_path = f"{os.getenv('HASH_DIR', 'hashes')}/{tracker_name}.txt"
 MAX_RETRIES = 3
 
@@ -33,7 +33,7 @@ def _print_retry(retry_state):
     before_sleep=_print_retry,
     retry_error_callback=lambda state: state.outcome.result(),
 )
-def _get_equator_response(session, api_url, headers):
+def _get_roadhouse_response(session, api_url, headers):
     return session.get(api_url, headers=headers, timeout=20)
 
 
@@ -42,9 +42,9 @@ def fetch():
         "https://ai.joinhandshake.com/api/trpc/"
         "task.getAllClaimableTasksForFellow"
         "?batch=1&input=%7B%220%22%3A%7B%22json%22%3A%7B%22annotationProjectId%22%3A"
-        "%2284828944-4139-4c17-8166-2a562f835eb0%22%2C%22pipelineStageId%22%3Anull%2C"
-        "%22attempters%22%3Anull%2C%22search%22%3Anull%2C%22sortBy%22%3A%22updatedAt%22"
-        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A10%2C%22"
+        "%225df1908e-d347-46ae-b522-2bd363b7477a%22%2C%22pipelineStageId%22%3Anull%2C"
+        "%22attempters%22%3Anull%2C%22search%22%3Anull%2C%22sortBy%22%3A%22default%22"
+        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A0%2C%22"
         "categories%22%3Anull%2C%22priorityLevel%22%3Anull%7D%2C%22meta%22%3A%7B%22"
         "values%22%3A%7B%22pipelineStageId%22%3A%5B%22undefined%22%5D%2C%22attempters"
         "%22%3A%5B%22undefined%22%5D%2C%22search%22%3A%5B%22undefined%22%5D%2C%22cat"
@@ -52,27 +52,27 @@ def fetch():
         "%22%5D%7D%2C%22v%22%3A1%7D%7D%7D"
     )
     headers = {
-        "accept": "application/json, text/plain, */*",
-        "referer": (
-            "https://ai.joinhandshake.com/fellow/"
-            "84828944-4139-4c17-8166-2a562f835eb0/tasks"
-        ),
-        "cookie": os.getenv("hai_equator_track_cookie", os.getenv("hai_evaluator_cookie", "")),
-    }
+            "accept": "application/json, text/plain, */*",
+            "referer": (
+                "https://ai.joinhandshake.com/fellow/"
+                "84828944-4139-4c17-8166-2a562f835eb0/tasks"
+            ),
+            "cookie": os.getenv("hai_equator_track_cookie", os.getenv("hai_evaluator_cookie", "")),
+        }
 
     try:
         session = get_session()
-        response = _get_equator_response(session, api_url, headers)
+        response = _get_roadhouse_response(session, api_url, headers)
         if response.status_code == 200:
             return response.json()
 
         return (
             "failure",
-            f"Equator API failed to fetch data (Status {response.status_code}) ",
+            f"Roadhouse API failed to fetch data (Status {response.status_code}) ",
             f"body: {response.text}",
         )
     except Exception as exc:
-        return ("failure", "Equator API fetch error: ", str(exc))
+        return ("failure", "Roadhouse API fetch error: ", str(exc))
 
 
 def process(response):
@@ -96,7 +96,8 @@ def process(response):
                 "task_count": len(tasks[:10]),
                 "date": now.strftime("%Y-%m-%d"),
                 "hour": now.hour,
-                "half_hour_bucket": now.minute // 30
+                "half_hour_bucket": now.minute // 30,
+                "quarter_hour_bucket": now.minute // 15,
             }
         )
         if current_hash != read_last_hash(hash_file_path):

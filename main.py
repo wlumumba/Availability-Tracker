@@ -10,12 +10,14 @@ from service import discord_service, email_service, pushover_service
 TRACKER_MODULE_PATHS = {
     "sheridan": "trackers.sheridan",
     "hai_ivy_track": "trackers.hai_ivy_track",
+    "hai_roadhouse_tracker": "trackers.hai_roadhouse_tracker",
     "hai_equator_track": "trackers.hai_equator_track",
 }
 
 TRACKER_PIPELINES = {
     "sheridan": ["fetch", "process", "template"],
     "hai_ivy_track": ["fetch", "process", "template"],
+    "hai_roadhouse_tracker": ["fetch", "process", "template"],
     "hai_equator_track": ["fetch", "process", "template"],
 }
 

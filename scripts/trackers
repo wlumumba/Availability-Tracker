@@ -5,13 +5,13 @@
 # Quick examples:
 #   ./trackers status all
 #   ./trackers off ivy
-#   ./trackers on ivy
+#   ./trackers on roadhouse
 #
 # Run `./trackers help` for the full command reference.
 
 set -u
 
-all_trackers="ivy equator sheridan"
+all_trackers="ivy roadhouse equator sheridan"
 user_domain="gui/$(id -u)"
 launch_agents_dir="$HOME/Library/LaunchAgents"
 
@@ -32,6 +32,7 @@ Commands:
 
 Trackers:
   ivy
+  roadhouse
   equator
   sheridan
   all       Apply the command to every tracker above.
@@ -52,9 +53,10 @@ EOF
 
 tracker_label() {
     case "$1" in
-        ivy)      echo "com.unit-tracker.hai-ivy-track" ;;
-        equator) echo "com.unit-tracker.hai-equator-track" ;;
-        sheridan) echo "com.unit-tracker.sheridan" ;;
+        ivy)       echo "com.unit-tracker.hai-ivy-track" ;;
+        roadhouse) echo "com.unit-tracker.hai-roadhouse-tracker" ;;
+        equator)   echo "com.unit-tracker.hai-equator-track" ;;
+        sheridan)  echo "com.unit-tracker.sheridan" ;;
         *) return 1 ;;
     esac
 }
@@ -153,7 +155,7 @@ fi
 target=$2
 if [ "$target" != "all" ] && ! tracker_label "$target" >/dev/null; then
     echo "Unknown tracker: $target" >&2
-    echo "Choose ivy, equator, sheridan, or all." >&2
+    echo "Choose ivy, roadhouse, equator, sheridan, or all." >&2
     exit 2
 fi
 
