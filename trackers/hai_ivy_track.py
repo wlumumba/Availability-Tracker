@@ -72,7 +72,7 @@ def fetch():
             f"body: {response.text}",
         )
     except Exception as exc:
-        return ("failure", "Ivy API fetch error: ", str(exc))
+        return ("failure", "Ivy API fetch exception: ", str(exc))
 
 
 def process(response):

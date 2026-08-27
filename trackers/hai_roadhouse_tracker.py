@@ -72,7 +72,7 @@ def fetch():
             f"body: {response.text}",
         )
     except Exception as exc:
-        return ("failure", "Roadhouse API fetch error: ", str(exc))
+        return ("failure", "Roadhouse API fetch exception: ", str(exc))
 
 
 def process(response):

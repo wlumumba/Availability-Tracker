@@ -44,7 +44,7 @@ def fetch():
         "?batch=1&input=%7B%220%22%3A%7B%22json%22%3A%7B%22annotationProjectId%22%3A"
         "%2284828944-4139-4c17-8166-2a562f835eb0%22%2C%22pipelineStageId%22%3Anull%2C"
         "%22attempters%22%3Anull%2C%22search%22%3Anull%2C%22sortBy%22%3A%22updatedAt%22"
-        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A10%2C%22"
+        "%2C%22sortOrder%22%3A%22desc%22%2C%22limit%22%3A100%2C%22offset%22%3A0%2C%22"
         "categories%22%3Anull%2C%22priorityLevel%22%3Anull%7D%2C%22meta%22%3A%7B%22"
         "values%22%3A%7B%22pipelineStageId%22%3A%5B%22undefined%22%5D%2C%22attempters"
         "%22%3A%5B%22undefined%22%5D%2C%22search%22%3A%5B%22undefined%22%5D%2C%22cat"
@@ -72,7 +72,7 @@ def fetch():
             f"body: {response.text}",
         )
     except Exception as exc:
-        return ("failure", "Equator API fetch error: ", str(exc))
+        return ("failure", "Equator API fetch exception: ", str(exc))
 
 
 def process(response):
